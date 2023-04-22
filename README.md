@@ -32,3 +32,6 @@ In Spark SQL we can define our own functions with the udf method fomr the **pysp
 ### **Window functions**
 
 Window functions are a way to combining the values of ranges of rows in a DataFrame. When defining the window we can choose how to sort and group (with the `partitionBy` method) the rows and how wide of a window we'd like to use (described by `rangeBetween` or `rowsBetween`). 
+
+## Resilient Distributed Datasets (RDDs)
+RDDs are a low-level abstraction of the data. In the first version of Spark, you worked directly with RDDs. You can think of RDDs as long lists distributed across various machines. You can still use RDDs as part of your Spark code although data frames and SQL are easier.
