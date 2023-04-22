@@ -25,7 +25,7 @@ Spark SQL provides built-in methods or the most common aggragations such as `cou
 
 In many cases, there are multiple ways to express the same aggreations. For example, if we would like to compute one type of aggregate for one or more columns of the DataFrame we can just simply chain the aggregate method after a `groupBy()`. If we would like to use different functions on different columns, `agg()` comes in handy. For example `agg({"salary": "avg", "age": "max"})` computes the average salary and maximum age.
 
-### **User defined functions (UDF)
+### **User defined functions (UDF)**
 
 In Spark SQL we can define our own functions with the udf method fomr the **pyspark.sql.functions** module. The default type of the returned variable for UDFs is string. If we need to explicitly do so by using the different types from the **pyspark.sql.types** module.
 
