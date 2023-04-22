@@ -31,4 +31,4 @@ In Spark SQL we can define our own functions with the udf method fomr the **pysp
 
 ### **Window functions**
 
-Window functions are a way to combining the values of ranges of rows in a DataFrame. When defining the window we can choose how to sort and group (with the `partitionBy` method) the rows and how wide of a window we'd like to use (described by `rangeBetween` or `rowsBetween`).
+Window functions are a way to combining the values of ranges of rows in a DataFrame. When defining the window we can choose how to sort and group (with the `partitionBy` method) the rows and how wide of a window we'd like to use (described by `rangeBetween` or `rowsBetween`). 
