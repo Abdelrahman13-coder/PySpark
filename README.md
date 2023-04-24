@@ -35,6 +35,6 @@ Window functions are a way to combining the values of ranges of rows in a DataFr
 
 <br>
 
-|`           Resilient Distributed Datasets (RDDs)           `|
-|----------------------------------------|
+|Resilient Distributed Datasets (RDDs)|
+|-------------------------------------|
 |RDDs are a low-level abstraction of the data. In the first version of Spark, you worked directly with RDDs. You can think of RDDs as long lists distributed across various machines. You can still use RDDs as part of your Spark code although data frames and SQL are easier.|
