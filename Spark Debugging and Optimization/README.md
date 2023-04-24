@@ -1,0 +1,2 @@
+### What are Accumulators?
+As the name hints, accumulators are variables that accumulate. Because Spark runs in distributed mode, the workers are running in parallel, but asynchronously. For example, **worker 1** will not be able to know how far **worker 2** and **worker 3** are done with their tasks. With the same anology, the variables that are local to workers are not going to be shared to another worker unless you accumulate them. Accumulators are used for mostly `sum` operators, like in Hadoop MapReduce, but you can implement it to do otherwise.
