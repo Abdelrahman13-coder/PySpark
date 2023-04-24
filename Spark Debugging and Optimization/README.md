@@ -84,4 +84,5 @@ df1.write("to path")
 * When you actually **execute using action `write`, then you will see your Spark program being executed:
     * `select` --> `filter` --> `write` chained in Spark UI
         * but you will see `Wrtie` show up under your tasks.
+
 This is significant because you can chain you **RDD** or dataframe as much as you want, but it might not do anything until you actually **trigger** with some **action words**. And if you have lengthy **transformations**, then it might take your executors quite some time to complete all the tasks.
