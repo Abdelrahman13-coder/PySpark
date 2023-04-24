@@ -80,4 +80,4 @@ df1.write("to path")
 ```
 
 * In this code, `select` and `filter` are **transformation functions**, and `write` is an **action function**.
-* if you execute this code line by line, the second line will be loaded, but you **will not see the function being executed in your Spark UI**.
+* If you execute this code line by line, the second line will be loaded, but you **will not see the function being executed in your Spark UI**.
