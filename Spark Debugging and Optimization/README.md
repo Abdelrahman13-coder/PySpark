@@ -10,3 +10,8 @@ For additional deep-dive, here is the [Spark documentation on accumulators](http
 Spark Broadcast variable are `secured`, `read-only` variables that get distriburted and cached to worker nodes. This is helpfu to Sparl because when the driver sends the data and tasks attached together which could be a little heavier on the network side.
 Broadcast variable seek to reduce network overhead and to reduce communications. Spark Broadcast variables are used only with Spark Context.
 
+> When is broadcast usually used in Spark?
+> - [x] Broadcast join is a way of joining a large table and small table in Spark.
+> - [ ] Broadcast variable is cached variable in the driver.
+> - [ ] Broadcast variable is shipped to each machine with tasks
+> - [x] Broadcast join is like map-side join in MapReduce 
