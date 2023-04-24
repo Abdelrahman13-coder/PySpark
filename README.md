@@ -1,4 +1,4 @@
-# PySpark
+# PySpark :stars:
 
 ## Data Wrangling with DataFrames
 
