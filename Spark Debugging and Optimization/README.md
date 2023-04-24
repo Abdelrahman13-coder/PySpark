@@ -1,3 +1,33 @@
+
+
+### Tips for Debugging Code Errors
+Typos are probably the simplest errors to identify
+* A <ins>typo</ins> is a method name will generate a <ins>short attribute error</ins>
+* An <ins>incorrect column name</ins> will result in a <ins>long analysis exception error</ins>
+* <ins>Typos in variable</ins> can result in <ins>lengthy errors</ins>
+* While Spark supports the Python API, its native language is Scala. That's why some of the error messages are referring to Scala, Java, or JVM issues even when we are running Python code.
+* Whenever you use `collect`,be careful how much data are you collecting
+* <ins>Mismatched parantheses</ins> can cause end-of-file (EOF) errors that may be misleading
+
+>You are running Spark code, and you encounter an error. What are some things you should look for in your code to resolve it?
+> - [x] Typos in your method names
+> - [ ] How long your Spark program is taking to run
+> - [x] Mismatched parantheses
+> - [x] Use of collect() in your code
+
+### Data Errors
+When you work with big data, some of the records might have missing fields or have data that's malformed or incorrect in some other usnexpected way.
+* If data is malformed, Spark populates these fields with nulls
+* If you try to do someting with a missing field, <ins>nulls remain nulls</ins>
+
+>You are working with some data with Spark, and you are concerned about malformed data in your dataset. How would you go abour locating it?
+> - [ ] Look through the data to see if you can spot any malformed data
+> - [x] filter a data frame for `_corrupt_record` results
+> - [ ] Compare the size of your data before, and after you Spark code runs
+> - [ ] Filter a data frame for null values
+
+
+
 ### What are Accumulators?
 As the name hints, accumulators are variables that accumulate. Because Spark runs in distributed mode, the workers are running in parallel, but asynchronously. For example, **worker 1** will not be able to know how far **worker 2** and **worker 3** are done with their tasks. With the same anology, the variables that are local to workers are not going to be shared to another worker unless you accumulate them. Accumulators are used for mostly `sum` operators, like in Hadoop MapReduce, but you can implement it to do otherwise.
 For additional deep-dive, here is the [Spark documentation on accumulators](https://spark.apache.org/docs/2.2.0/rdd-programming-guide.html#accumulators) if you want to learn more about these.
@@ -16,17 +46,38 @@ Broadcast variable seek to reduce network overhead and to reduce communications.
 > - [ ] Broadcast variable is shipped to each machine with tasks
 > - [x] Broadcast join is like map-side join in MapReduce 
 
-### Tips for Debugging Code Errors
-Typos are probably the simplest errors to identify
-* A <ins>typo</ins> is a method name will generate a <ins>short attribute error</ins>
-* An <ins>incorrect column name</ins> will result in a <ins>long analysis exception error</ins>
-* <ins>Typos in variable</ins> can result in <ins>lengthy errors</ins>
-* While Spark supports the Python API, its native language is Scala. That's why some of the error messages are referring to Scala, Java, or JVM issues even when we are running Python code.
-* Whenever you use `collect`,be careful how much data are you collecting
-* <ins>Mismatched parantheses</ins> can cause end-of-file (EOF) errors that may be misleading
+### What are Accumulators?
+As the name hints, accumulators are variables that accumulate. Because Spark runs in distributed mode, the workers are running in parallel, but asynchronously. For example, **worker 1** will not be able to know how far **worker 2** and **worker 3** are done with their tasks. With the same anology, the variables that are local to workers are not going to be shared to another worker unless you accumulate them. Accumulators are used for mostly `sum` operators, like in Hadoop MapReduce, but you can implement it to do otherwise.
+For additional deep-dive, here is the [Spark documentation on accumulators](https://spark.apache.org/docs/2.2.0/rdd-programming-guide.html#accumulators) if you want to learn more about these.
 
->You are running Spark code, and you encounter an error. What are some things you should look for in your code to resolve it?
-> - [x] Typos in your method names
-> - [ ] How long your Spark program is taking to run
-> - [x] Mismatched parantheses
-> - [x] Use of collect() in your code
+> What would be the best scenario for using Spark Accumlatiors? 
+>- [ ] When you're using transformation functions accross your code
+>- [x] When your know you will have different values across your executors :tada:
+
+### What is Spark Broadcast? :shipit:
+Spark Broadcast variable are `secured`, `read-only` variables that get distriburted and cached to worker nodes. This is helpfu to Sparl because when the driver sends the data and tasks attached together which could be a little heavier on the network side.
+Broadcast variable seek to reduce network overhead and to reduce communications. Spark Broadcast variables are used only with Spark Context.
+
+> When is broadcast usually used in Spark?
+> - [x] Broadcast join is a way of joining a large table and small table in Spark.
+> - [ ] Broadcast variable is cached variable in the driver.
+> - [ ] Broadcast variable is shipped to each machine with tasks
+> - [x] Broadcast join is like map-side join in MapReduce 
+
+## Different types of Spark Functions
+
+### Transformation and Actions
+There are two types of functions in Spark:
+1. **Transformation**
+2. **Actions**
+
+Spark uses <ins>lazy evaluation</ins> to evaluate RDD and dataframe. Lazy evaluation means the code is not executed until it is needed. The __action__ functions trigger the lazily evaluated functions.
+For example,
+```python
+df = spark.read.load("some csv file")
+df1 = df.select("some column").filter("some condition")
+df1.write("to path")
+```
+
+* In this code, `select` and `filter` are **transformation functions**, and `write` is an **action function**.
+* if you execute this code line by line, the second line will be loaded, but you **will not see the function being executed in your Spark UI**.
