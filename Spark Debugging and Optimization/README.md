@@ -1,6 +1,6 @@
 
 
-### Tips for Debugging Code Errors
+## Tips for Debugging Code Errors
 Typos are probably the simplest errors to identify
 * A <ins>typo</ins> is a method name will generate a <ins>short attribute error</ins>
 * An <ins>incorrect column name</ins> will result in a <ins>long analysis exception error</ins>
@@ -15,7 +15,7 @@ Typos are probably the simplest errors to identify
 > - [x] Mismatched parantheses
 > - [x] Use of collect() in your code
 
-### Data Errors
+## Data Errors
 When you work with big data, some of the records might have missing fields or have data that's malformed or incorrect in some other usnexpected way.
 * If data is malformed, Spark populates these fields with nulls
 * If you try to do someting with a missing field, <ins>nulls remain nulls</ins>
@@ -28,7 +28,7 @@ When you work with big data, some of the records might have missing fields or ha
 
 
 
-### What are Accumulators?
+## What are Accumulators?
 As the name hints, accumulators are variables that accumulate. Because Spark runs in distributed mode, the workers are running in parallel, but asynchronously. For example, **worker 1** will not be able to know how far **worker 2** and **worker 3** are done with their tasks. With the same anology, the variables that are local to workers are not going to be shared to another worker unless you accumulate them. Accumulators are used for mostly `sum` operators, like in Hadoop MapReduce, but you can implement it to do otherwise.
 For additional deep-dive, here is the [Spark documentation on accumulators](https://spark.apache.org/docs/2.2.0/rdd-programming-guide.html#accumulators) if you want to learn more about these.
 
@@ -46,7 +46,7 @@ Broadcast variable seek to reduce network overhead and to reduce communications.
 > - [ ] Broadcast variable is shipped to each machine with tasks
 > - [x] Broadcast join is like map-side join in MapReduce 
 
-### What are Accumulators?
+## What are Accumulators?
 As the name hints, accumulators are variables that accumulate. Because Spark runs in distributed mode, the workers are running in parallel, but asynchronously. For example, **worker 1** will not be able to know how far **worker 2** and **worker 3** are done with their tasks. With the same anology, the variables that are local to workers are not going to be shared to another worker unless you accumulate them. Accumulators are used for mostly `sum` operators, like in Hadoop MapReduce, but you can implement it to do otherwise.
 For additional deep-dive, here is the [Spark documentation on accumulators](https://spark.apache.org/docs/2.2.0/rdd-programming-guide.html#accumulators) if you want to learn more about these.
 
@@ -54,7 +54,7 @@ For additional deep-dive, here is the [Spark documentation on accumulators](http
 >- [ ] When you're using transformation functions accross your code
 >- [x] When your know you will have different values across your executors :tada:
 
-### What is Spark Broadcast? :shipit:
+## What is Spark Broadcast? :shipit:
 Spark Broadcast variable are `secured`, `read-only` variables that get distriburted and cached to worker nodes. This is helpfu to Sparl because when the driver sends the data and tasks attached together which could be a little heavier on the network side.
 Broadcast variable seek to reduce network overhead and to reduce communications. Spark Broadcast variables are used only with Spark Context.
 
@@ -86,3 +86,14 @@ df1.write("to path")
         * but you will see `Wrtie` show up under your tasks.
 
 This is significant because you can chain you **RDD** or dataframe as much as you want, but it might not do anything until you actually **trigger** with some **action words**. And if you have lengthy **transformations**, then it might take your executors quite some time to complete all the tasks.
+
+
+## Debugging Code
+If you were writing a traditional Python script, you might use print statement to output the values held by variables. These print statements can be helpful when debugging your code, but this won't work on Spark. Think back to how Spark runs your code.
+* You have a **driver node** coordinating the tasks of various **worker nodes**.
+* Code is running on those worker nodes an not the driver, so print statements will only run on those workder nodes.
+* You cannot directly see the output from them because you're not connected directly to them.
+![image](https://user-images.githubusercontent.com/58150666/234269701-ff645a30-862b-4d72-8c35-46185083c5fd.png)
+* Spark makes a copy of the input data every time you call a function. So, the origional debugging variables that you created won't actually get loaded into the worker nodes. Instead, each workder has their own copy of these variables, and only these copies get modified.
+![image](https://user-images.githubusercontent.com/58150666/234270058-d03d121a-69e6-499a-b2d4-00fbc2112f31.png)
+
