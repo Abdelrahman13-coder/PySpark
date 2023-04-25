@@ -26,6 +26,16 @@ When you work with big data, some of the records might have missing fields or ha
 > - [ ] Compare the size of your data before, and after you Spark code runs
 > - [ ] Filter a data frame for null values
 
+## Debugging Code
+If you were writing a traditional Python script, you might use print statement to output the values held by variables. These print statements can be helpful when debugging your code, but this won't work on Spark. Think back to how Spark runs your code.
+* You have a **driver node** coordinating the tasks of various **worker nodes**.
+* Code is running on those worker nodes an not the driver, so print statements will only run on those workder nodes.
+* You cannot directly see the output from them because you're not connected directly to them.
+![image](https://user-images.githubusercontent.com/58150666/234269701-ff645a30-862b-4d72-8c35-46185083c5fd.png)
+* Spark makes a copy of the input data every time you call a function. So, the origional debugging variables that you created won't actually get loaded into the worker nodes. Instead, each workder has their own copy of these variables, and only these copies get modified.
+![image](https://user-images.githubusercontent.com/58150666/234270058-d03d121a-69e6-499a-b2d4-00fbc2112f31.png)
+
+To get around these limitations, Spark gives you special variables known as **accumulators**. Accumulators are like global variables for your entire cluster.
 
 
 ## What are Accumulators?
@@ -87,13 +97,4 @@ df1.write("to path")
 
 This is significant because you can chain you **RDD** or dataframe as much as you want, but it might not do anything until you actually **trigger** with some **action words**. And if you have lengthy **transformations**, then it might take your executors quite some time to complete all the tasks.
 
-
-## Debugging Code
-If you were writing a traditional Python script, you might use print statement to output the values held by variables. These print statements can be helpful when debugging your code, but this won't work on Spark. Think back to how Spark runs your code.
-* You have a **driver node** coordinating the tasks of various **worker nodes**.
-* Code is running on those worker nodes an not the driver, so print statements will only run on those workder nodes.
-* You cannot directly see the output from them because you're not connected directly to them.
-![image](https://user-images.githubusercontent.com/58150666/234269701-ff645a30-862b-4d72-8c35-46185083c5fd.png)
-* Spark makes a copy of the input data every time you call a function. So, the origional debugging variables that you created won't actually get loaded into the worker nodes. Instead, each workder has their own copy of these variables, and only these copies get modified.
-![image](https://user-images.githubusercontent.com/58150666/234270058-d03d121a-69e6-499a-b2d4-00fbc2112f31.png)
 
