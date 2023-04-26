@@ -98,3 +98,30 @@ df1.write("to path")
 This is significant because you can chain you **RDD** or dataframe as much as you want, but it might not do anything until you actually **trigger** with some **action words**. And if you have lengthy **transformations**, then it might take your executors quite some time to complete all the tasks.
 
 
+## Understanding Data Skewness
+![image](https://user-images.githubusercontent.com/58150666/234598610-b11dbbcc-d174-4971-9fa5-a468cb8cdd59.png)
+
+### Introduction to Data Skew
+**Skewed data** means due to non-optimal partitioning, the data is heavy on few partitions. This could be problematic.
+
+Imagine you're processing a dataset, and the data is distributed through your cluster by partition.
+
+* In this case, only a few partitions will continue to work, while the rest or the partitions do not work.
+* If you were to run your cluster like this, you will get billed by the time of the data processing, which means you will get billed for the duration of the longest partitions working.
+* We would like to re-distribute the data in a way to that all the partitions are working.
+
+### **Figure A.** Time to process with non-optimal partitioning with skewed data
+![image](https://user-images.githubusercontent.com/58150666/234599974-a4b59d02-31db-4254-8f18-3c9c48efabbc.png)
+
+### **Figure B.** Time to process with optimal partitioning with skewed data
+![image](https://user-images.githubusercontent.com/58150666/234600476-41748171-35ab-441d-a0f0-4fbf04e52edc.png)
+
+| In order to loot at the skewness of the data: |
+|-----------------------------------------------|
+| :bar_chart: Check for `min`, `max` and data RANGES.       | 
+| :briefcase: Examine how the workers are working.           |
+| :triangular_flag_on_post: Identify workers that are running longer and aim to optimize it. |
+
+
+
+
