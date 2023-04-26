@@ -123,5 +123,20 @@ Imagine you're processing a dataset, and the data is distributed through your cl
 | :triangular_flag_on_post: Identify workers that are running longer and aim to optimize it. |
 
 
+## Optimizing for Data Skewness
 
+### So how do we solve skewed data problems?
+The Goal is to change the partitioning columns to take out the data skewness(e.g., the `year` column is skewed).
+1. **Use Alternate Columns that are more normally distributed:**
+E.g., Instead of the `year` column, we can use `Issue_Date` column that isn't skewed.
+2. **Make Composite Keys:**
+For e.g., you can make composite keys by combining two columns so that the new column can be used as a composite key titled `Issue_Date + State`. The **new** column will now include data from 2 columns, e.g., `2017-04-15-NY`. This clumn can be used to partiion the data, create more normally distributed datasets(e.g., distribution of parking violations on 2017-04-15 would now be more spread out across states, and this can now help addresss skewness in the data.
+
+3. **Partition by number of Spark workers:**
+Another easy way is using the Spark workers. If your know the number of your workers for Spark, then you can easily partition the data by the number of workers `df.repartition(number_of_workers)` to repartition your data evenly across your workers. For Example, if you have 8 workers, then you should do `df.repartition(8)` before doing any operations.
+
+| **Two different ways to solve skewed data problem**|
+|----------------------------------------------------|
+| :heavy_check_mark: **Assign a new, temporary partition key** before processing any huge shuffles.|
+| :scissors: The second method is using **repartition**|
 
